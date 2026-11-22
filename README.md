@@ -129,6 +129,14 @@ A full browser walkthrough is recorded in [docs/ui-demo/dashboard-walkthrough.we
 
 ![Dashboard run options](docs/ui-demo/dashboard-run-options.png)
 
+#### Completed run and GitHub posting state
+
+![Dashboard completed run](docs/ui-demo/dashboard-complete-run.png)
+
+#### Theme switch
+
+![Dashboard theme](docs/ui-demo/dashboard-theme.png)
+
 ### Replay the UI test
 
 Requires the dashboard server on `http://127.0.0.1:8765`.
