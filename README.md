@@ -86,22 +86,17 @@ Each run is stored under `evidence/run-<timestamp>/`:
 
 ## How it works
 
-```mermaid
-flowchart LR
-    A[GitHub issue or Markdown ticket] --> B[Ticket parser]
-    B --> C[Gemini planner]
-    C --> D[Playwright browser executor]
-    D --> E[Gemini verifier]
-    E --> F[PASS / FAIL / BLOCKED report]
-    F --> G[Screenshots and video]
-    F --> H[Optional GitHub comment and label]
-```
-
 1. **Ticket parsing** extracts acceptance criteria and an optional target URL.
 2. **Planning** converts each criterion into browser actions.
 3. **Execution** uses Playwright with role-based accessibility interactions.
 4. **Verification** checks reported evidence against the final page state.
 5. **Reporting** creates evidence, summaries, and final verdicts.
+
+## Architecture
+
+[![Autonomous UI Test Agent architecture](docs/img/architecture-overview.png)](docs/ARCHITECTURE.md)
+
+The diagram is also available in [SVG format](docs/img/architecture-overview.svg).
 
 ## Using GitHub issues
 
