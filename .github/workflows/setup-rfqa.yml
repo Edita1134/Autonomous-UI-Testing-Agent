@@ -1,0 +1,51 @@
+name: Setup RFQA label
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create RFQA and QA labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = [
+              { name: 'RFQA', color: '7057FF', description: 'Run the autonomous UI testing agent' },
+              { name: 'qa-passed', color: '0E8A16', description: 'Autonomous UI test passed' },
+              { name: 'qa-failed', color: 'D93F0B', description: 'Autonomous UI test failed' },
+              { name: 'qa-blocked', color: 'FBCA04', description: 'Autonomous UI test blocked or inconclusive' }
+            ];
+
+            for (const label of labels) {
+              try {
+                await github.rest.issues.getLabel({ owner: context.repo.owner, repo: context.repo.repo, name: label.name });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label.name,
+                  color: label.color,
+                  description: label.description
+                });
+              }
+            }
+
+      - name: Trigger RFQA for issue 1
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 1,
+              labels: ['RFQA']
+            });
