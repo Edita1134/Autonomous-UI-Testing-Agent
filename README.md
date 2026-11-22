@@ -1,96 +1,219 @@
-# Autonomous UI Test Agent
+# Autonomous UI Testing Agent
 
-An LLM agent (Gemini Developer API + Playwright) that reads a GitHub issue, turns its **Acceptance Criteria** into
-test steps, drives a real browser to execute them, and reports **PASS / FAIL / BLOCKED** with evidence.
-No hardcoded selectors: the model sees the page as an accessibility tree and picks elements by role and name.
+[![Tests](https://github.com/Edita1134/Autonomous-UI-Testing-Agent/actions/workflows/tests.yml/badge.svg)](https://github.com/Edita1134/Autonomous-UI-Testing-Agent/actions/workflows/tests.yml)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115%2B-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 
-Target app: [saucedemo.com](https://www.saucedemo.com) (login -> add to cart -> checkout).
+An AI-assisted UI testing agent that converts GitHub issues or Markdown tickets into browser tests. Gemini creates and verifies test scenarios, while Playwright executes them using accessible page roles instead of fragile CSS selectors.
 
-## Quick start (about 5 minutes)
+The agent produces **PASS**, **FAIL**, or **BLOCKED** verdicts and saves screenshots, browser video, logs, and machine-readable reports.
 
-Requires Python 3.10+ and a free [Gemini API key](https://aistudio.google.com/apikey) (Google account, no credit card).
+**Target application:** [SauceDemo](https://www.saucedemo.com) — login, products, cart, and checkout workflows.
+
+## Features
+
+- Loads acceptance criteria from GitHub issues or local Markdown files
+- Plans test steps automatically with Gemini
+- Controls Chromium through Playwright and accessibility snapshots
+- Stops repeated actions and enforces configured guardrails
+- Verifies results against evidence found on the page
+- Saves screenshots, WebM recordings, `report.md`, `report.json`, and `agent.log`
+- Posts comments and `qa-passed`, `qa-failed`, or `qa-blocked` labels to GitHub
+- Provides a React + FastAPI dashboard with live run activity
+- Supports GitHub Actions and the `RFQA` webhook trigger
+
+## Quick start
+
+### Requirements
+
+- Python 3.10 or newer
+- Node.js 20 or newer for the dashboard UI
+- A Gemini API key
+- Chromium installed by Playwright
+
+### Install
 
 ```powershell
+git clone https://github.com/Edita1134/Autonomous-UI-Testing-Agent.git
+cd Autonomous-UI-Testing-Agent
+
 python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-playwright install chromium
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python -m playwright install chromium
 
-copy .env.example .env        # then paste your GEMINI_API_KEY into .env
-
-python -m agent.main --issue-file issues/checkout-flow.md          # expected: PASS
-python -m agent.main --issue-file issues/failing-cart-badge.md     # expected: FAIL (deliberate)
+Copy-Item .env.example .env
 ```
 
-Add `--headed` to watch the browser. Results land in `evidence/run-<timestamp>/`:
+Open `.env` and add `GEMINI_API_KEY`. The repository intentionally excludes `.env` from Git.
 
-| File | Contents |
-|------|----------|
-| `agent.log` | The agent's reasoning trail: OBSERVE / THOUGHT / ACTION / RESULT per turn |
-| `screenshots/` | One screenshot per action, plus one per criterion |
-| `video/*.webm` | Full video recording |
-| `report.md`, `report.json` | Final automated pass/fail report |
+### Run a sample ticket
 
-Exit codes: `0` pass, `1` fail, `2` blocked (inconclusive), `3` configuration/input error, `4` unexpected crash.
+```powershell
+python -m agent.main --issue-file issues/checkout-flow.md
+python -m agent.main --issue-file issues/failing-cart-badge.md
+python -m agent.main --issue-file issues/checkout-flow.md --headed
+```
 
-## Web dashboard (optional)
+Exit codes are `0` for PASS, `1` for FAIL, `2` for BLOCKED, `3` for configuration/input errors, and `4` for unexpected crashes.
 
-A separate React + FastAPI project in [agent-dashboard/](agent-dashboard/) (see its README). It starts the agent's
-CLI, streams the reasoning live, shows per-criterion cards and screenshots, and can load and run a GitHub issue.
+### Run evidence
+
+Each run is stored under `evidence/run-<timestamp>/`:
+
+| Artifact | Description |
+|---|---|
+| `agent.log` | Timestamped observations, thoughts, actions, and results |
+| `screenshots/` | Page screenshots captured during the run |
+| `video/*.webm` | Complete browser recording |
+| `report.md` | Human-readable final report |
+| `report.json` | Structured report for dashboards and automation |
+
+## How it works
+
+```mermaid
+flowchart LR
+    A[GitHub issue or Markdown ticket] --> B[Ticket parser]
+    B --> C[Gemini planner]
+    C --> D[Playwright browser executor]
+    D --> E[Gemini verifier]
+    E --> F[PASS / FAIL / BLOCKED report]
+    F --> G[Screenshots and video]
+    F --> H[Optional GitHub comment and label]
+```
+
+1. **Ticket parsing** extracts acceptance criteria and an optional target URL.
+2. **Planning** converts each criterion into browser actions.
+3. **Execution** uses Playwright with role-based accessibility interactions.
+4. **Verification** checks reported evidence against the final page state.
+5. **Reporting** creates evidence, summaries, and final verdicts.
+
+## Using GitHub issues
+
+Configure `.env` with the repository and token:
+
+```dotenv
+GITHUB_REPO=Edita1134/Autonomous-UI-Testing-Agent
+GITHUB_TOKEN=
+GEMINI_API_KEY=
+```
+
+Create an issue with this structure:
+
+```markdown
+Target URL: https://www.saucedemo.com
+
+## Acceptance Criteria
+- AC1: A standard user can log in successfully
+- AC2: The products page is displayed after login
+- AC3: The Sauce Labs Backpack can be added to the cart
+- AC4: The cart badge shows 1 item
+```
+
+Run it from the CLI:
+
+```powershell
+python -m agent.main --issue 1
+python -m agent.main --issue 1 --post
+```
+
+The `--post` option adds a Markdown report comment and replaces the previous `qa-passed`, `qa-failed`, or `qa-blocked` label.
+
+## Automatic GitHub trigger
+
+Two trigger modes are included:
+
+- **Webhook:** run `uvicorn agent.triggers.webhook:app --port 8000`, expose it with an HTTPS tunnel, and configure the GitHub repository webhook for issue label events.
+- **GitHub Actions:** add `GEMINI_API_KEY` and `GITHUB_TOKEN` repository secrets; applying `RFQA` runs the workflow in `.github/workflows/rfqa.yml`.
+
+## Web dashboard
+
+The dashboard combines a React + TypeScript interface with a FastAPI backend.
 
 ```powershell
 cd agent-dashboard
+python -m pip install -r requirements.txt
 python -m dashboard
 ```
 
-## Using a real GitHub issue
+Open `http://127.0.0.1:8765`. The dashboard displays live agent activity, run progress, acceptance-criterion verdicts, screenshots, past runs, and GitHub posting status.
 
-1. Put `GITHUB_TOKEN` (repo scope) and `GITHUB_REPO=owner/repo` in `.env`.
-2. Create an issue shaped like [issues/checkout-flow.md](issues/checkout-flow.md): a `## Acceptance Criteria` list
-   and an optional `Target URL:` line.
-3. `python -m agent.main --issue 1 --post` runs it and comments the report on the issue (plus a `qa-*` label).
-
-### Automatic trigger on "RFQA" (webhook)
-
-Adding the label `RFQA` to an issue starts the agent.
+For frontend development:
 
 ```powershell
-uvicorn agent.triggers.webhook:app --port 8000
-ngrok http 8000      # then add <public-url>/webhook as a repo webhook (event: Issues,
-                     # content type application/json, secret = GITHUB_WEBHOOK_SECRET)
+cd agent-dashboard/frontend
+npm ci
+npm run dev
+npm run build
 ```
 
-Alternative with no server: [.github/workflows/rfqa.yml](.github/workflows/rfqa.yml) runs the agent on the same
-label (add `GEMINI_API_KEY` as a repository secret).
+Keep the Python dashboard server running on port `8765`; Vite proxies `/api` and `/evidence` requests to it.
 
-## Project layout
+## Project structure
 
+```text
+agent/                    Core agent package
+  main.py                 CLI entry point
+  tickets/                Markdown and GitHub ticket handling
+  llm/                    Gemini client, prompts, and tool schemas
+  browser/                Playwright browser session
+  pipeline/               Planning, execution, verification, and guardrails
+  reporting/              Evidence and report generation
+  triggers/               RFQA webhook trigger
+
+agent-dashboard/          React and FastAPI dashboard
+  dashboard/              Backend API and subprocess runner
+  frontend/src/           React TypeScript source
+  frontend/tests/         Playwright UI tests
+
+issues/                   Example test tickets
+docs/                     Architecture, scenarios, test plan, and demo files
+evidence/                 Generated run evidence
+tests/                    Python unit and integration tests
+.github/workflows/        CI and RFQA automation
 ```
-agent/                    the test agent (Python package)
-  main.py                 CLI entry point:  python -m agent.main
-  config.py, models.py    settings and shared data classes
-  tickets/                parser.py (issue -> acceptance criteria), github.py (fetch issue, post result)
-  llm/                    client.py (Gemini + retry), prompts.py, tool_schemas.py
-  browser/                session.py (Playwright, semantic actions, ARIA snapshot)
-  pipeline/               planner.py -> executor.py -> verifier.py, loop_guard.py, runner.py (orchestration)
-  reporting/              evidence.py (run folder, logs), reporter.py (report.md / report.json)
-  triggers/               webhook.py (RFQA label trigger)
-agent-dashboard/          optional web dashboard (separate project)
-issues/                   sample tickets
-docs/                     TEST_PLAN.md, SCENARIOS.md
-tests/                    unit tests (no API key or browser needed)
-evidence/                 output of runs: logs, screenshots, video, reports
-.github/workflows/        GitHub Action for the RFQA trigger
-```
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the architecture diagrams, [docs/TEST_PLAN.md](docs/TEST_PLAN.md) for design decisions and [docs/SCENARIOS.md](docs/SCENARIOS.md) for what is tested.
+For system design details, see [Architecture](docs/ARCHITECTURE.md), [Test Plan](docs/TEST_PLAN.md), and [Scenarios](docs/SCENARIOS.md).
 
-## Tests
+## Testing
 
 ```powershell
-pip install -r requirements-dev.txt
-pytest        # parsing, guardrails and the whole pipeline with a fake LLM + browser; no API key or Chromium needed
+python -m pip install -r requirements-dev.txt
+python -m pytest -q
 ```
+
+The Python tests use fake browser and LLM dependencies. They do not require an API key or Chromium.
+
+```powershell
+cd agent-dashboard/frontend
+npm ci
+npx playwright install chromium
+npm run test:ui
+```
+
+The UI tests verify dashboard controls, GitHub issue loading, ticket editing, run options, past evidence, theme switching, and the recorded walkthrough.
+
+## Configuration
+
+| Variable | Required | Purpose |
+|---|---:|---|
+| `GEMINI_API_KEY` | Yes | Authenticates Gemini API requests |
+| `GEMINI_MODEL` | No | Gemini function-calling model; defaults to `gemini-3.5-flash-lite` |
+| `DEFAULT_TARGET_URL` | No | Default website for local tickets without `Target URL:` |
+| `GITHUB_REPO` | For GitHub issues | Repository in `owner/repository` format |
+| `GITHUB_TOKEN` | For private issues/posting | GitHub token with repository Issues read/write access |
+| `GITHUB_WEBHOOK_SECRET` | For webhooks | Secret used to verify webhook signatures |
+| `TRIGGER_LABEL` | No | Label that triggers automation; defaults to `RFQA` |
+| `HEADED` | No | Set `true` to display Chromium |
+
+## Security
+
+- Never commit `.env`, API keys, or GitHub tokens.
+- Store CI credentials in GitHub Actions repository secrets.
+- Grant GitHub tokens the minimum required Issues and repository permissions.
+- Rotate an exposed token or API key immediately.
+- `.env` and virtual environments are excluded by `.gitignore`.
 
 ## Notes and limits
 
