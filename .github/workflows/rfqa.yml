@@ -4,6 +4,12 @@ name: RFQA agent
 on:
   issues:
     types: [labeled]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: "GitHub issue number to test"
+        required: true
+        default: "1"
 
 permissions:
   issues: write
@@ -11,7 +17,7 @@ permissions:
 
 jobs:
   test-issue:
-    if: github.event.label.name == 'RFQA'
+    if: github.event_name == 'workflow_dispatch' || github.event.label.name == 'RFQA'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -30,7 +36,13 @@ jobs:
           gh label create qa-failed --description "Autonomous UI test failed" --color D93F0B --force
           gh label create qa-blocked --description "Autonomous UI test blocked or inconclusive" --color FBCA04 --force
       - name: Run agent
-        run: python -m agent.main --issue ${{ github.event.issue.number }} --post
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            ISSUE_NUMBER="${{ inputs.issue_number }}"
+          else
+            ISSUE_NUMBER="${{ github.event.issue.number }}"
+          fi
+          python -m agent.main --issue "$ISSUE_NUMBER" --post
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
