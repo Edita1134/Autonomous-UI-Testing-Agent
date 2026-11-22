@@ -1,0 +1,117 @@
+20:32:06 | Run run-20261121-203206: Feature: Add item to cart and complete checkout (4 acceptance criteria)
+20:32:11 | PLAN AC1: Type standard_user into the Username field. | Type secret_sauce into the Password field. | Click the Login button. | Look at the Products page.
+20:32:11 | PLAN AC2: Click the Add to cart button for the Sauce Labs Backpack. | Look at the Sauce Labs Backpack button showing Remove. | Look at the shopping cart badge showing 1.
+20:32:11 | PLAN AC3: Click the shopping cart icon. | Look at the cart page listing the Sauce Labs Backpack.
+20:32:11 | PLAN AC4: Click the Checkout button. | Type Ada into the First Name field. | Type Lovelace into the Last Name field. | Type 12345 into the Zip/Postal Code field. | Click the Continue button. | Click the Finish button. | Look at the page saying Thank you for your order!.
+20:32:16 | [AC1] STEP 1/4: Type standard_user into the Username field.
+20:32:16 | [AC1.1] OBSERVE: https://www.saucedemo.com/ | Swag Labs
+20:32:17 | [AC1.1] THOUGHT: Type standard_user into the Username field.
+20:32:17 | [AC1.1] ACTION: fill(name='Username', role='textbox', value='standard_user') -> OK: Typed into textbox 'Username'
+20:32:18 | [AC1.1] OBSERVE: https://www.saucedemo.com/ | Swag Labs
+20:32:19 | Gemini 503 UNAVAILABLE; retrying in 5s
+20:32:26 | [AC1.1] THOUGHT: The username field has standard_user typed into it. The step is fully achieved.
+20:32:26 | [AC1.1] FINISH: done - Typed standard_user into the Username field successfully.
+20:32:26 | [AC1] STEP 2/4: Type secret_sauce into the Password field.
+20:32:26 | [AC1.2] OBSERVE: https://www.saucedemo.com/ | Swag Labs
+20:32:27 | [AC1.2] THOUGHT: Type secret_sauce into the Password textbox.
+20:32:28 | [AC1.2] ACTION: fill(role='textbox', value='secret_sauce', name='Password') -> OK: Typed into textbox 'Password'
+20:32:28 | [AC1.2] OBSERVE: https://www.saucedemo.com/ | Swag Labs
+20:32:29 | Gemini 503 UNAVAILABLE; retrying in 5s
+20:32:35 | Gemini 503 UNAVAILABLE; retrying in 10s
+20:32:47 | [AC1.2] THOUGHT: The password field now contains secret_sauce as required by the step.
+20:32:47 | [AC1.2] FINISH: done - Typed secret_sauce into the Password field successfully.
+20:32:47 | [AC1] STEP 3/4: Click the Login button.
+20:32:47 | [AC1.3] OBSERVE: https://www.saucedemo.com/ | Swag Labs
+20:32:49 | Gemini 503 UNAVAILABLE; retrying in 5s
+20:32:55 | Gemini 503 UNAVAILABLE; retrying in 10s
+20:33:06 | [AC1.3] THOUGHT: I see the Login button on the page, so I will click it.
+20:33:07 | [AC1.3] ACTION: click(name='Login', role='button') -> OK: Clicked button 'Login'
+20:33:07 | [AC1.3] OBSERVE: https://www.saucedemo.com/inventory.html | Swag Labs
+20:33:08 | [AC1.3] THOUGHT: The login button was already clicked in the previous action and we are now on the inventory page (URL: /inventory.html), which means the goal of clicking the Login button is achieved.
+20:33:08 | [AC1.3] FINISH: done - Clicked the Login button, and the page successfully navigated to the inventory page (Swag Labs).
+20:33:08 | [AC1] STEP 4/4: Look at the Products page.
+20:33:08 | [AC1.4] OBSERVE: https://www.saucedemo.com/inventory.html | Swag Labs
+20:33:10 | [AC1.4] THOUGHT: The current page is the Products page, so the step to look at it is complete.
+20:33:10 | [AC1.4] FINISH: done - Currently on the Products page showing Swag Labs inventory items.
+20:33:12 | RESULT AC1: PASS - Expected the Products page to be displayed after logging in with standard_user and secret_sauce, and the final snapshot confirms successful navigation to the inventory page showing the Products header.
+20:33:12 | [AC2] STEP 1/3: Click the Add to cart button for the Sauce Labs Backpack.
+20:33:12 | [AC2.1] OBSERVE: https://www.saucedemo.com/inventory.html | Swag Labs
+20:33:13 | Gemini 503 UNAVAILABLE; retrying in 5s
+20:33:23 | [AC2.1] THOUGHT: Click the Add to cart button for the Sauce Labs Backpack using within_text to distinguish it from other Add to cart buttons.
+20:33:24 | [AC2.1] ACTION: click(role='button', name='Add to cart', within_text='Sauce Labs Backpack') -> OK: Clicked button 'Add to cart' within 'Sauce Labs Backpack'
+20:33:24 | [AC2.1] OBSERVE: https://www.saucedemo.com/inventory.html | Swag Labs
+20:33:25 | [AC2.1] THOUGHT: The step is to click the Add to cart button for the Sauce Labs Backpack. The action succeeded and the page now shows a 'Remove' button and cart with 1 item.
+20:33:25 | [AC2.1] FINISH: done - Clicked the Add to cart button for the Sauce Labs Backpack, and the cart now shows 1 item with the button changed to Remove.
+20:33:25 | [AC2] STEP 2/3: Look at the Sauce Labs Backpack button showing Remove.
+20:33:25 | [AC2.2] OBSERVE: https://www.saucedemo.com/inventory.html | Swag Labs
+20:33:30 | Gemini 503 UNAVAILABLE; retrying in 5s
+20:33:37 | [AC2.2] THOUGHT: The step asks to look at the Sauce Labs Backpack button showing Remove, which is visible in the snapshot. No action is required.
+20:33:37 | [AC2.2] FINISH: done - The Sauce Labs Backpack button showing Remove is visible on the page.
+20:33:37 | [AC2] STEP 3/3: Look at the shopping cart badge showing 1.
+20:33:37 | [AC2.3] OBSERVE: https://www.saucedemo.com/inventory.html | Swag Labs
+20:33:38 | [AC2.3] THOUGHT: The shopping cart badge showing 1 is visible in the banner. No interaction is needed as the step only asks to look at it.
+20:33:38 | [AC2.3] FINISH: done - The shopping cart badge showing 1 is visible on the page.
+20:33:44 | RESULT AC2: PASS - The Sauce Labs Backpack button successfully changed to 'Remove' and the shopping cart badge shows 1 item.
+20:33:44 | [AC3] STEP 1/2: Click the shopping cart icon.
+20:33:44 | [AC3.1] OBSERVE: https://www.saucedemo.com/inventory.html | Swag Labs
+20:33:45 | [AC3.1] THOUGHT: Click the shopping cart icon to view the cart.
+20:33:45 | [AC3.1] ACTION: click(name='Cart, 1 items', role='button') -> OK: Clicked button 'Cart, 1 items'
+20:33:46 | [AC3.1] OBSERVE: https://www.saucedemo.com/cart.html | Swag Labs
+20:33:46 | Gemini 503 UNAVAILABLE; retrying in 5s
+20:33:53 | [AC3.1] THOUGHT: The cart icon was clicked and the page is now the cart page, so the step is done.
+20:33:53 | [AC3.1] FINISH: done - Clicked the shopping cart icon and successfully navigated to the cart page (cart.html).
+20:33:53 | [AC3] STEP 2/2: Look at the cart page listing the Sauce Labs Backpack.
+20:33:53 | [AC3.2] OBSERVE: https://www.saucedemo.com/cart.html | Swag Labs
+20:33:54 | [AC3.2] THOUGHT: The cart page is already loaded and shows the Sauce Labs Backpack. I will finish the step.
+20:33:54 | [AC3.2] FINISH: done - The cart page is displayed, listing the Sauce Labs Backpack under Your Cart.
+20:33:55 | RESULT AC3: PASS - The cart page is successfully opened and lists the Sauce Labs Backpack as expected.
+20:33:55 | [AC4] STEP 1/7: Click the Checkout button.
+20:33:55 | [AC4.1] OBSERVE: https://www.saucedemo.com/cart.html | Swag Labs
+20:33:57 | [AC4.1] THOUGHT: Click the Checkout button on the cart page.
+20:33:57 | [AC4.1] ACTION: click(name='Checkout', role='button') -> OK: Clicked button 'Checkout'
+20:33:57 | [AC4.1] OBSERVE: https://www.saucedemo.com/checkout-step-one.html | Swag Labs
+20:33:58 | [AC4.1] THOUGHT: The checkout button was already clicked in the previous step and the page is now on the checkout information page, achieving the goal.
+20:33:58 | [AC4.1] FINISH: done - Clicked the Checkout button, and the page successfully navigated to the checkout information form (checkout-step-one.html).
+20:33:58 | [AC4] STEP 2/7: Type Ada into the First Name field.
+20:33:58 | [AC4.2] OBSERVE: https://www.saucedemo.com/checkout-step-one.html | Swag Labs
+20:33:59 | [AC4.2] THOUGHT: Type Ada into the First Name field
+20:34:00 | [AC4.2] ACTION: fill(value='Ada', name='First Name', role='textbox') -> OK: Typed into textbox 'First Name'
+20:34:00 | [AC4.2] OBSERVE: https://www.saucedemo.com/checkout-step-one.html | Swag Labs
+20:34:01 | [AC4.2] THOUGHT: The step is fully completed as 'Ada' is now present in the First Name field.
+20:34:01 | [AC4.2] FINISH: done - Typed Ada into the First Name field successfully.
+20:34:01 | [AC4] STEP 3/7: Type Lovelace into the Last Name field.
+20:34:01 | [AC4.3] OBSERVE: https://www.saucedemo.com/checkout-step-one.html | Swag Labs
+20:34:09 | [AC4.3] THOUGHT: Type Lovelace into the Last Name field.
+20:34:10 | [AC4.3] ACTION: fill(value='Lovelace', role='textbox', name='Last Name') -> OK: Typed into textbox 'Last Name'
+20:34:10 | [AC4.3] OBSERVE: https://www.saucedemo.com/checkout-step-one.html | Swag Labs
+20:34:11 | [AC4.3] THOUGHT: The last action successfully typed Lovelace into the Last Name field. The goal of the current step is achieved.
+20:34:11 | [AC4.3] FINISH: done - Typed Lovelace into the Last Name field successfully.
+20:34:11 | [AC4] STEP 4/7: Type 12345 into the Zip/Postal Code field.
+20:34:11 | [AC4.4] OBSERVE: https://www.saucedemo.com/checkout-step-one.html | Swag Labs
+20:34:12 | [AC4.4] THOUGHT: Type 12345 into the Zip/Postal Code textbox.
+20:34:13 | [AC4.4] ACTION: fill(value='12345', name='Zip/Postal Code', role='textbox') -> OK: Typed into textbox 'Zip/Postal Code'
+20:34:13 | [AC4.4] OBSERVE: https://www.saucedemo.com/checkout-step-one.html | Swag Labs
+20:34:15 | [AC4.4] THOUGHT: The zip code field now contains 12345, so the current step is achieved.
+20:34:15 | [AC4.4] FINISH: done - Successfully typed 12345 into the Zip/Postal Code field.
+20:34:15 | [AC4] STEP 5/7: Click the Continue button.
+20:34:15 | [AC4.5] OBSERVE: https://www.saucedemo.com/checkout-step-one.html | Swag Labs
+20:34:16 | [AC4.5] THOUGHT: Click the Continue button to proceed with checkout.
+20:34:17 | [AC4.5] ACTION: click(role='button', name='Continue') -> OK: Clicked button 'Continue'
+20:34:17 | [AC4.5] OBSERVE: https://www.saucedemo.com/checkout-step-two.html | Swag Labs
+20:34:17 | Gemini 429 RESOURCE_EXHAUSTED; retrying in 43s
+20:35:01 | Gemini 503 UNAVAILABLE; retrying in 10s
+20:35:14 | [AC4.5] THOUGHT: The Continue button was already clicked in the previous action and we are now on the checkout overview page, so the step is done.
+20:35:14 | [AC4.5] FINISH: done - Clicked the Continue button and successfully navigated to the checkout overview page.
+20:35:14 | [AC4] STEP 6/7: Click the Finish button.
+20:35:14 | [AC4.6] OBSERVE: https://www.saucedemo.com/checkout-step-two.html | Swag Labs
+20:35:17 | [AC4.6] THOUGHT: Click the Finish button to complete checkout.
+20:35:18 | [AC4.6] ACTION: click(name='Finish', role='button') -> OK: Clicked button 'Finish'
+20:35:18 | [AC4.6] OBSERVE: https://www.saucedemo.com/checkout-complete.html | Swag Labs
+20:35:21 | [AC4.6] THOUGHT: The finish button was successfully clicked in the previous action and we are now on the order complete page.
+20:35:21 | [AC4.6] FINISH: done - The Finish button was clicked and the order complete page is displayed with the success message.
+20:35:21 | [AC4] STEP 7/7: Look at the page saying Thank you for your order!.
+20:35:21 | [AC4.7] OBSERVE: https://www.saucedemo.com/checkout-complete.html | Swag Labs
+20:35:22 | [AC4.7] THOUGHT: The page already shows the heading 'Thank you for your order!'. I will call finish_step with status 'done'.
+20:35:22 | [AC4.7] FINISH: done - The page successfully shows the heading 'Thank you for your order!' and the checkout complete message.
+20:35:26 | RESULT AC4: PASS - The user checked out with first name 'Ada', last name 'Lovelace', and zip '12345', and the final page successfully displays the message 'Thank you for your order!'.
+20:35:35 | OVERALL: PASS (report: C:\Users\nitsh\Downloads\ASSIGNMENT\evidence\run-20261121-203206\report.md)

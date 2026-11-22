@@ -1,0 +1,46 @@
+19:57:32 | Run run-20261121-195732: Bug check: cart badge count (deliberately wrong AC) (2 acceptance criteria)
+19:57:34 | Gemini 503 UNAVAILABLE; retrying in 5s
+19:57:47 | PLAN AC1: Type standard_user into the Username field. | Type secret_sauce into the Password field. | Click the Login button. | Look at the Products page.
+19:57:47 | PLAN AC2: Click the Add to cart button for the Sauce Labs Backpack. | Look at the shopping cart badge.
+19:57:50 | [AC1] STEP 1/4: Type standard_user into the Username field.
+19:57:50 | [AC1.1] OBSERVE: https://www.saucedemo.com/ | Swag Labs
+19:57:56 | [AC1.1] THOUGHT: Type standard_user into the Username field.
+19:57:56 | [AC1.1] ACTION: fill(role='textbox', name='Username', value='standard_user') -> OK: Typed into textbox 'Username'
+19:57:56 | [AC1.1] OBSERVE: https://www.saucedemo.com/ | Swag Labs
+19:57:58 | Gemini 503 UNAVAILABLE; retrying in 5s
+19:58:10 | [AC1.1] THOUGHT: The action to type standard_user into the Username field has successfully completed as shown in the snapshot.
+19:58:10 | [AC1.1] FINISH: done - Typed standard_user into the Username field successfully.
+19:58:10 | [AC1] STEP 2/4: Type secret_sauce into the Password field.
+19:58:10 | [AC1.2] OBSERVE: https://www.saucedemo.com/ | Swag Labs
+19:58:11 | [AC1.2] THOUGHT: Type secret_sauce into the Password field.
+19:58:12 | [AC1.2] ACTION: fill(role='textbox', value='secret_sauce', name='Password') -> OK: Typed into textbox 'Password'
+19:58:12 | [AC1.2] OBSERVE: https://www.saucedemo.com/ | Swag Labs
+19:58:22 | Gemini 503 UNAVAILABLE; retrying in 5s
+19:58:28 | [AC1.2] THOUGHT: The password field now contains secret_sauce as requested.
+19:58:28 | [AC1.2] FINISH: done - Successfully typed secret_sauce into the Password field.
+19:58:28 | [AC1] STEP 3/4: Click the Login button.
+19:58:28 | [AC1.3] OBSERVE: https://www.saucedemo.com/ | Swag Labs
+19:58:30 | [AC1.3] THOUGHT: Click the Login button to submit the login form.
+19:58:30 | [AC1.3] ACTION: click(role='button', name='Login') -> OK: Clicked button 'Login'
+19:58:30 | [AC1.3] OBSERVE: https://www.saucedemo.com/inventory.html | Swag Labs
+19:58:40 | [AC1.3] THOUGHT: The login action has successfully taken us to the inventory page, so the step is done.
+19:58:40 | [AC1.3] FINISH: done - The Login button was clicked and the user is now on the inventory page (Swag Labs products).
+19:58:40 | [AC1] STEP 4/4: Look at the Products page.
+19:58:40 | [AC1.4] OBSERVE: https://www.saucedemo.com/inventory.html | Swag Labs
+19:58:44 | [AC1.4] THOUGHT: The Products page is currently visible, so no action is needed.
+19:58:44 | [AC1.4] FINISH: done - The Products page is displayed with a list of items.
+19:58:45 | Gemini 503 UNAVAILABLE; retrying in 5s
+19:59:01 | RESULT AC1: PASS - The user successfully logged in with standard_user and secret_sauce, and the final page displays the Products inventory list at /inventory.html.
+19:59:01 | [AC2] STEP 1/2: Click the Add to cart button for the Sauce Labs Backpack.
+19:59:01 | [AC2.1] OBSERVE: https://www.saucedemo.com/inventory.html | Swag Labs
+19:59:03 | [AC2.1] THOUGHT: Click the Add to cart button for the Sauce Labs Backpack using within_text to distinguish it.
+19:59:04 | [AC2.1] ACTION: click(role='button', within_text='Sauce Labs Backpack', name='Add to cart') -> OK: Clicked button 'Add to cart' within 'Sauce Labs Backpack'
+19:59:04 | [AC2.1] OBSERVE: https://www.saucedemo.com/inventory.html | Swag Labs
+19:59:14 | [AC2.1] THOUGHT: The Sauce Labs Backpack has been added to the cart, as seen by the Remove button and the cart badge '1'. Finish step 'done'.
+19:59:14 | [AC2.1] FINISH: done - The Sauce Labs Backpack Add to cart button was clicked, and the page now shows the Remove button and cart count 1.
+19:59:14 | [AC2] STEP 2/2: Look at the shopping cart badge.
+19:59:14 | [AC2.2] OBSERVE: https://www.saucedemo.com/inventory.html | Swag Labs
+19:59:16 | [AC2.2] THOUGHT: The shopping cart badge is visible and shows 1 item, so the step is complete.
+19:59:16 | [AC2.2] FINISH: done - I observed the shopping cart badge showing 1 item: button "Cart, 1 items": "1".
+19:59:18 | RESULT AC2: FAIL - Expected the cart badge to show 2 after adding the Sauce Labs Backpack to the cart once, but the cart badge displays 1.
+19:59:20 | OVERALL: FAIL (report: C:\Users\nitsh\Downloads\ASSIGNMENT\evidence\run-20261121-195732\report.md)

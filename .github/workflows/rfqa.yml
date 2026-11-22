@@ -1,0 +1,33 @@
+name: RFQA agent
+
+# Runs the autonomous UI test agent when an issue gets the "RFQA" label.
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  test-issue:
+    if: github.event.label.name == 'RFQA'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt && playwright install --with-deps chromium
+      - name: Run agent
+        run: python -m agent.main --issue ${{ github.event.issue.number }} --post
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}  # Optional repository variable; empty means the default model.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO: ${{ github.repository }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: evidence
+          path: evidence/
