@@ -1,6 +1,13 @@
 import { test, expect } from "@playwright/test";
 
 test("complete dashboard walkthrough", async ({ page }) => {
+  await page.route("**/api/github/issues/1", (route) => route.fulfill({
+    json: {
+      number: 1,
+      markdown: "# Test SauceDemo login and cart workflow\n\nTarget URL: https://www.saucedemo.com\n\n## Acceptance Criteria\n- AC1: A standard user can log in successfully\n- AC2: The products page is displayed after login\n- AC3: The Sauce Labs Backpack can be added to the cart\n- AC4: The cart badge shows 1 item",
+    },
+  }));
+
   await page.route("**/api/progress**", (route) => route.fulfill({
     json: {
       run_id: "run-20261122-demo",
