@@ -8,7 +8,8 @@ export default defineConfig({
   use: {
     baseURL,
     headless: true,
-    screenshot: "only-on-failure",
+    screenshot: "on",
+    video: "on",
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
 });

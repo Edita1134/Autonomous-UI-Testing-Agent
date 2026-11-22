@@ -100,4 +100,51 @@ pytest        # parsing, guardrails and the whole pipeline with a fake LLM + bro
   are often overloaded (503).
 - Free-tier limits: the client waits and retries on short rate limits, and stops with a clear message when a daily quota is used up.
 - The agent reads the page through the accessibility tree rather than screenshots. Screenshots are saved as evidence only.
-# Autonomous-UI-Testing-Agent
+
+## UI dashboard demo
+
+A full browser walkthrough is recorded in [docs/ui-demo/dashboard-walkthrough.webm](docs/ui-demo/dashboard-walkthrough.webm). It demonstrates:
+
+- Loading the dashboard and checking the idle state
+- Entering and loading GitHub issue **#1**
+- Displaying the issue title, target URL, and acceptance criteria
+- Enabling GitHub result posting
+- Enabling headed browser mode
+- Starting a run for the loaded issue
+- Viewing the live activity, acceptance-criteria, screenshot, and past-run panels
+- Loading sample tickets and entering ticket markdown
+- Enabling and disabling run options
+
+### Recorded screenshots
+
+#### Dashboard and ticket controls
+
+![Dashboard home](docs/ui-demo/dashboard-home.png)
+
+#### GitHub issue loaded
+
+![GitHub issue loaded](docs/ui-demo/dashboard-github-issue.png)
+
+#### Run options
+
+![Dashboard run options](docs/ui-demo/dashboard-run-options.png)
+
+### Replay the UI test
+
+Requires the dashboard server on `http://127.0.0.1:8765`.
+
+```powershell
+cd agent-dashboard
+python -m uvicorn dashboard.app:app --host 127.0.0.1 --port 8765
+```
+
+Then run the recorded Playwright walkthrough in another terminal:
+
+```powershell
+cd agent-dashboard/frontend
+npm ci
+npx playwright install chromium
+npm run test:ui
+```
+
+The walkthrough is in `frontend/tests/dashboard.spec.ts`. Playwright saves screenshots and videos under `frontend/test-results/`.
