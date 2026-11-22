@@ -15,9 +15,7 @@ The agent produces **PASS**, **FAIL**, or **BLOCKED** verdicts and saves screens
 
 ### Dashboard walkthrough
 
-<video src="docs/ui-demo/dashboard-walkthrough.mp4" controls muted width="100%">
-  Your browser does not support MP4 playback. [Download the dashboard walkthrough](docs/ui-demo/dashboard-walkthrough.mp4).
-</video>
+![Dashboard walkthrough](docs/ui-demo/dashboard-walkthrough.gif)
 
 [Watch or download the MP4 demo](docs/ui-demo/dashboard-walkthrough.mp4) · [Download the WebM version](docs/ui-demo/dashboard-walkthrough.webm)
 
