@@ -15,11 +15,11 @@ The agent produces **PASS**, **FAIL**, or **BLOCKED** verdicts and saves screens
 
 ### Dashboard walkthrough
 
-<a href="docs/ui-demo/dashboard-walkthrough.webm">
-  <img src="docs/ui-demo/dashboard-home.png" alt="Autonomous UI Testing Agent dashboard" width="100%">
-</a>
+<video src="docs/ui-demo/dashboard-walkthrough.mp4" controls muted width="100%">
+  Your browser does not support MP4 playback. [Download the dashboard walkthrough](docs/ui-demo/dashboard-walkthrough.mp4).
+</video>
 
-Watch the [complete dashboard walkthrough](docs/ui-demo/dashboard-walkthrough.webm) or view the recorded screens below.
+[Watch or download the MP4 demo](docs/ui-demo/dashboard-walkthrough.mp4) · [Download the WebM version](docs/ui-demo/dashboard-walkthrough.webm)
 
 | GitHub issue loading | Run options | Completed run |
 |---|---|---|
